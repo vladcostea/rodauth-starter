@@ -29,7 +29,12 @@ class App < Roda
   plugin :rodauth, json: :only do
     db(DB)
 
-    enable :login, :logout, :jwt
+    enable(
+      :login,
+      :logout,
+      :create_account,
+      :jwt
+    )
 
     jwt_secret(ENV.fetch('JWT_SECRET'))
     function_name { |name| "#{DB_SCHEMA}_password.#{name}" }

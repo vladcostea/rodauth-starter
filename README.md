@@ -52,3 +52,19 @@ Use that header in all subsequent requests
 curl http://localhost:4000/hello \
   -H "Authorization: <header>.<payload>.<sig>
 ```
+
+### Create Account
+
+```
+# create-account.json
+{
+  "login":"user@email.com",
+  "login-confirm":"user@email.com",
+  "password":"password",
+  "password-confirm":"password"
+}
+
+curl -v -XPOST http://localhost:4000/create-account \
+  -H "Content-Type: application/json" \
+  -d @create-account.json
+```
