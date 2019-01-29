@@ -44,13 +44,14 @@ class App < Roda
   route do |r|
     r.rodauth
     rodauth.require_authentication
+    env['rodauth'] = rodauth
 
     r.root do
       r.redirect '/hello'
     end
 
     r.get 'hello' do
-      'hello'
+      { id: request.env['rodauth'].session_value }
     end
   end
 end
