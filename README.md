@@ -19,6 +19,7 @@ export DATABASE_HASHES_PASSWORD=password
 export DATABASE_HASHES_URL=postgres://accounts_password:password@localhost:5432/rodauth_dev
 export SESSION_KEY=_rodauth_starter
 export SESSION_SECRET=c5d73bd5474dd4215eb735fd22976e0c2f223169c648485bc37c4bf2dd18
+export JWT_SECRET=secret
 ```
 
 ## Setup and migrate
@@ -33,4 +34,21 @@ bundle exec rake db:migrate
 
 ```
 bundle exec puma -p 4000 config.ru
+```
+
+### JWT login
+
+```
+curl -XPOST http://localhost:4000/login \
+  -H "Content-Type: application/json" \
+  -d '{"login": <username>, "password": <password>}'
+```
+
+If all goes well, you should receive an `Authorization` header. 
+
+Use that header in all subsequent requests
+
+```
+curl http://localhost:4000/hello \
+  -H "Authorization: <header>.<payload>.<sig>
 ```

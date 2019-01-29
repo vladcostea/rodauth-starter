@@ -26,11 +26,12 @@ class App < Roda
   plugin :common_logger, LOGGER
   plugin :middleware
 
-  plugin :rodauth do
+  plugin :rodauth, json: :only do
     db(DB)
 
-    enable :login, :logout
+    enable :login, :logout, :jwt
 
+    jwt_secret(ENV.fetch('JWT_SECRET'))
     function_name { |name| "#{DB_SCHEMA}_password.#{name}" }
     password_hash_table(Sequel["#{DB_SCHEMA}_password".to_sym][:account_password_hashes])
   end
@@ -44,7 +45,7 @@ class App < Roda
     end
 
     r.get 'hello' do
-      view('hello')
+      'hello'
     end
   end
 end
